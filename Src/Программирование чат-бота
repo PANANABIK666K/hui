@@ -1,1 +1,23 @@
-https://sendpulse.com/blog/wp-content/uploads/2020/06/Welcome-flow.png
+from flask import Flask, request
+import requests
+
+# задаем параметры API бота
+bot_token = 'BOT_TOKEN'
+bot_url = f'https://api.telegram.org/bot{bot_token}/'
+
+# создаем приложение Flask
+app = Flask(__name__)
+
+# создаем обработчик для вебхука (webhook)
+@app.route('/my_bot', methods=['POST'])
+def my_bot():
+# получаем данные из запроса POST
+data = request.get_json()
+
+# получаем текстовое сообщение от пользователя
+message_text = data['message']['text']
+
+# отправляем ответное сообщение пользователю
+chat_id = data['message']['chat']['id']
+response_text = f'Привет, я твой чат-бот! Ты написал мне "{message_text}"'
+requests.post(bot_url + 'sendMessage', data={'chat_id': chat_id, 'text': response_teмоа
